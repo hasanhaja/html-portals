@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>HTML Portals</title>
+    <link href="styles.css" rel="stylesheet">
+    <script src="timer.js"></script>
+    <script src="counter.js"></script>
+	</head>
+	<body>
+		<h1>HTML Portals demo</h1>
+    <main>
+      <template shadowrootmode="open">
+        <slot name="before"></slot>
+        <section>
+          <header>
+            <h2>Portal header</h2>
+            <p>Portal subheading</p>
+          </header>
+          <p>This the static content inside my portal</p>
+        </section>
+        <slot name="after"></slot>
+        <slot></slot>
+      </template>
+      <x-timer slot="before"></x-timer>
+      <x-counter slot="after"></x-counter>
+      <button id="swap" type="button">Swap</button>
+    </main>
+    <script>
+      const btn = document.getElementById("swap"); 
+      const timer = document.querySelector("x-timer");
+      const counter = document.querySelector("x-counter");
+      let currentPosition = timer.getAttribute("slot"); 
+
+      btn.addEventListener("click", () => {
+        const prev = currentPosition;
+        currentPosition = currentPosition === "before" ? "after" : "before";
+        timer.setAttribute("slot", currentPosition);
+        counter.setAttribute("slot", prev);
+      });
+    </script>
+	</body>
+</html>
